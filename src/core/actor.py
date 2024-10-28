@@ -1,6 +1,6 @@
 import core
-from pyray import Vector2
 from core.actorcomponent import ActorComponent
+from pyray import Vector2
 
 
 class Actor:
@@ -8,6 +8,11 @@ class Actor:
     @property
     def components(self) -> list[ActorComponent]:
         return self._components
+
+
+    @property
+    def is_destroyed(self) -> bool:
+        return self._is_destroyed
 
 
     def __init__(self, scene: 'core.scene.Scene', name: str,
@@ -18,6 +23,11 @@ class Actor:
         self.scale: Vector2 = scale
         self._scene: 'core.scene.Scene' = scene
         self._components: list[ActorComponent] = list()
+        self._is_destroyed: bool = False
+
+
+    def __str__(self):
+        return f"{self.name}_{id(self)}"
 
 
     def add_component(self, component: ActorComponent) -> None:
@@ -25,5 +35,11 @@ class Actor:
         component.set_actor(self)
 
 
-    def __str__(self):
-        return f"{self.name}_{id(self)}"
+    def destroy(self):
+        self._scene.destroy_actor(self)
+
+
+    def on_destroy(self) -> None:
+        self._is_destroyed = True
+        for component in self._components:
+            component.on_destroy()

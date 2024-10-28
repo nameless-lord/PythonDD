@@ -39,10 +39,15 @@ class Game:
 
     def on_update(self, frame_time: float) -> None:
         for actor in self._current_scene.actors:
+            if actor.is_destroyed:
+                continue
+
             for component in actor.components:
                 if not component.is_started:
                     component.start()
                 component.on_update(frame_time)
+
+        self._current_scene.remove_destroyed_actors()
 
 
     def on_draw(self, frame_time) -> None:
@@ -53,5 +58,4 @@ class Game:
 
     def on_close(self) -> None:
         for actor in self._current_scene.actors:
-            for component in actor.components:
-                component.on_destroy()
+            self._current_scene.destroy_actor(actor)

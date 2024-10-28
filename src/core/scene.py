@@ -11,6 +11,7 @@ class Scene:
 
     def __init__(self, name: str):
         self._actors: list[Actor] = list()
+        self._destroyed_actors: list[Actor] = list()
         self._name: str = name
 
 
@@ -18,6 +19,18 @@ class Scene:
         actor: Actor = Actor(self, name, position, rotation, scale)
         self._actors.append(actor)
         return actor
+
+
+    def destroy_actor(self, actor: Actor) -> None:
+        self._destroyed_actors.append(actor)
+        actor.on_destroy()
+
+
+    def remove_destroyed_actors(self) -> None:
+        for actor in self._destroyed_actors:
+            self._actors.remove(actor)
+
+        self._destroyed_actors.clear()
 
 
     def print_actor_names(self) -> None:
