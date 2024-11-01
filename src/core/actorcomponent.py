@@ -7,6 +7,11 @@ class ActorComponent:
         return self._is_started
 
 
+    @property
+    def actor(self) -> 'core.actor.Actor':
+        return self._actor
+
+
     def __init__(self):
         self._actor: 'core.actor.Actor' = None
         self._is_started: bool = False
@@ -30,6 +35,10 @@ class ActorComponent:
 
 
     def on_draw(self, frame_time: float) -> None:
+        pass
+
+
+    def on_debug_draw(self, frame_time: float) -> None:
         pass
 
 

@@ -1,23 +1,23 @@
-from core.engine import *
+from core import *
 
-from components.followcursor import FollowCursor
 from components.spriterenderer import SpriteRenderer
-from components.destroyonstart import DestroyOnStart
+from components.collisionbox import CollisionBox
+from components.ui.button import Button
 
 
 if __name__ == '__main__':
-    game = Game()
 
     scene = Scene("TestScene")
 
-    actor = scene.create_actor("Actor", Vector2(128, 128), 0, Vector2(1, 1))
-    actor.add_component(SpriteRenderer("../resources/images/placeholder.png", 256, 256))
-    actor.add_component(DestroyOnStart())
+    button_actor = scene.create_actor("Button Actor", Vector2(800, 450))
+    button_actor.add_component(CollisionBox(256, 256))
+    button_actor.add_component(SpriteRenderer("../resources/images/placeholder.png", 256, 256))
+    button_actor.add_component(Button())
 
-    cursor = scene.create_actor("Cursor", Vector2(0, 0), 0, Vector2(1, 1))
-    cursor.add_component(FollowCursor())
-    cursor.add_component(SpriteRenderer("../resources/images/placeholder.png", 64, 64, Color(0, 0, 255, 255)))
+    button_component = button_actor.get_component(Button)
 
-    scene.print_actor_names()
+    button_component.pressed.add_callback(lambda : print("Pressed"))
 
+
+    game = Game(is_debug_mode=True)
     game.run(scene)

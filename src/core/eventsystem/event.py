@@ -6,11 +6,11 @@ class Event:
         self._callbacks: list[Callable] = list()
 
 
-    def add_listener(self, callback: Callable):
+    def add_callback(self, callback: Callable):
         self._callbacks.append(callback)
 
 
-    def remove_listener(self, callback: Callable):
+    def remove_callback(self, callback: Callable):
         self._callbacks.remove(callback)
 
 

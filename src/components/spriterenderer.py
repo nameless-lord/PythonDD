@@ -1,4 +1,4 @@
-from core.engine import *
+from core import *
 from pyray import *
 
 
@@ -7,7 +7,7 @@ class SpriteRenderer(ActorComponent):
     def __init__(self, texture_path: str, width: float, height: float, tint: Color = WHITE):
         super().__init__()
         self._texture_path: str = texture_path
-        self._texture: Texture2D = None
+        self._texture: Texture
         self._width: float = width
         self._height: float = height
         self._tint: Color = tint

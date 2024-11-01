@@ -1,4 +1,4 @@
-from core.engine import *
+from core import *
 
 
 class DestroyOnStart(ActorComponent):

@@ -15,7 +15,7 @@ class Scene:
         self._name: str = name
 
 
-    def create_actor(self, name: str, position: Vector2, rotation: float, scale: Vector2) -> Actor:
+    def create_actor(self, name: str, position: Vector2, rotation: float = 0, scale: Vector2 = Vector2(1, 1)) -> Actor:
         actor: Actor = Actor(self, name, position, rotation, scale)
         self._actors.append(actor)
         return actor
