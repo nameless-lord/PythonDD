@@ -1,6 +1,10 @@
-import core
-from core.actorcomponent import ActorComponent
+import core.scene
+from typing import TypeVar, Type
+from .actorcomponent import ActorComponent
 from pyray import Vector2
+
+
+T = TypeVar('T', bound=ActorComponent)
 
 
 class Actor:
@@ -33,6 +37,12 @@ class Actor:
     def add_component(self, component: ActorComponent) -> None:
         self._components.append(component)
         component.set_actor(self)
+
+
+    def get_component(self, component_type: Type[T]) -> T:
+        for component in self._components:
+            if type(component) is component_type:
+                return component
 
 
     def destroy(self):

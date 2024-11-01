@@ -5,8 +5,11 @@ from core.scene import Scene
 
 class Game:
 
-    def __init__(self):
+    request_exit: bool = False
+
+    def __init__(self, is_debug_mode: bool = False):
         self._current_scene: Scene = None
+        self._is_debug_mode: bool = is_debug_mode
 
 
     def run(self, start_scene: Scene) -> None:
@@ -16,19 +19,27 @@ class Game:
 
         init_window(1600, 900, "Game")
 
+        camera: Camera2D = Camera2D()
+        camera.zoom = 1
+
         self._current_scene = start_scene
 
-        while not window_should_close():
+        while not window_should_close() and not Game.request_exit:
             frame_time: float = get_frame_time()
 
             self.on_update(frame_time)
 
             begin_drawing()
             clear_background(BLACK)
-            self.on_draw(frame_time)
 
-            draw_text(f"FPS: {get_fps()}", 5, 5, 20, DARKGREEN)
-            draw_text(f"Frame time: {1000 * frame_time:.2f} ms", 5, 25, 20, DARKGREEN)
+            begin_mode_2d(camera)
+            self.on_draw(frame_time)
+            end_mode_2d()
+
+            if self._is_debug_mode:
+                self.on_debug_draw(frame_time)
+                draw_text(f"FPS: {get_fps()}", 5, 5, 20, DARKGREEN)
+                draw_text(f"Frame time: {1000 * frame_time:.2f} ms", 5, 25, 20, DARKGREEN)
 
             end_drawing()
 
@@ -54,6 +65,12 @@ class Game:
         for actor in self._current_scene.actors:
             for component in actor.components:
                 component.on_draw(frame_time)
+
+
+    def on_debug_draw(self, frame_time) -> None:
+        for actor in self._current_scene.actors:
+            for component in actor.components:
+                component.on_debug_draw(frame_time)
 
 
     def on_close(self) -> None:

@@ -1,5 +1,5 @@
-from core.engine import *
-
+from core import *
+import pyray
 
 class FollowCursor(ActorComponent):
     def on_update(self, frame_time: float) -> None:
