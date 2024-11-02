@@ -1,3 +1,5 @@
+from cffi.model import BaseType
+
 from core import *
 
 from components.spriterenderer import SpriteRenderer
@@ -13,9 +15,7 @@ if __name__ == '__main__':
     button_actor.add_component(CollisionBox(256, 256))
     button_actor.add_component(SpriteRenderer("../resources/images/placeholder.png", 256, 256))
     button_actor.add_component(Button())
-
     button_component = button_actor.get_component(Button)
-
     button_component.pressed.add_callback(lambda : print("Pressed"))
 
 

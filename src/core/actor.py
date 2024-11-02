@@ -1,10 +1,7 @@
 import core.scene
-from typing import TypeVar, Type
+from typing import Type
 from .actorcomponent import ActorComponent
 from pyray import Vector2
-
-
-T = TypeVar('T', bound=ActorComponent)
 
 
 class Actor:
@@ -39,7 +36,7 @@ class Actor:
         component.set_actor(self)
 
 
-    def get_component(self, component_type: Type[T]) -> T:
+    def get_component[T: ActorComponent](self, component_type: Type[T]) -> T:
         for component in self._components:
             if type(component) is component_type:
                 return component
