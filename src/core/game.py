@@ -14,27 +14,33 @@ class Game:
     _current_scene: Scene = None
     _is_debug_mode: bool = False
 
-
     @staticmethod
     def run(start_scene: Scene, is_debug_mode: bool) -> None:
+
+        # Установка параметров
         set_trace_log_level(TraceLogLevel.LOG_WARNING)
         set_target_fps(60)
 
+        # Создание окна
         init_window(Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, "Game")
 
         Game._current_scene = start_scene
         Game._is_debug_mode = is_debug_mode
 
+        # Инициализация камеры
         # noinspection PyArgumentList
         Game.camera = Camera2D()
         Game.camera.offset = Vector2(Game.SCREEN_WIDTH * 0.5, Game.SCREEN_HEIGHT * 0.5)
         Game.camera.zoom = 1
 
-
+        # Основной игровой цикл
         while not window_should_close() and not Game.request_exit:
             frame_time: float = get_frame_time()
 
+            # Обновление состояния объектов
             Game._on_update(frame_time)
+
+            # Отрисовка
 
             begin_drawing()
             clear_background(BLACK)
@@ -42,6 +48,7 @@ class Game:
             begin_mode_2d(Game.camera)
 
             Game._on_draw(frame_time)
+
             if Game._is_debug_mode:
                 Game._on_debug_draw(frame_time)
 
@@ -53,6 +60,7 @@ class Game:
 
             end_drawing()
 
+        # Очистка при закрытии
         Game._on_close()
 
         close_window()

@@ -1,10 +1,8 @@
-import pyray
-
-from components.testmotion import TestMotion
 from core import *
 
 from components.spriterenderer import SpriteRenderer
 from components.collisionbox import CollisionBox
+from components.testmotion import TestMotion
 from components.ui.button import Button
 
 
