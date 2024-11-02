@@ -28,7 +28,7 @@ class Game:
         # noinspection PyArgumentList
         Game.camera = Camera2D()
         Game.camera.offset = Vector2(Game.SCREEN_WIDTH * 0.5, Game.SCREEN_HEIGHT * 0.5)
-        Game.camera.zoom = 0.5
+        Game.camera.zoom = 1
 
 
         while not window_should_close() and not Game.request_exit:

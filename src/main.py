@@ -1,3 +1,5 @@
+import pyray
+
 from core import *
 
 from components.spriterenderer import SpriteRenderer
@@ -9,7 +11,7 @@ if __name__ == '__main__':
 
     scene = Scene("TestScene")
 
-    button_actor = scene.create_actor("Button Actor", Vector2(800, 450))
+    button_actor = scene.create_actor("Button Actor", Vector2(0, 0))
     button_actor.add_component(CollisionBox(256, 256))
     button_actor.add_component(SpriteRenderer("../resources/images/placeholder.png", 256, 256))
     button_actor.add_component(Button())
