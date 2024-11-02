@@ -16,6 +16,4 @@ if __name__ == '__main__':
     button_component = button_actor.get_component(Button)
     button_component.pressed.add_callback(lambda : print("Pressed"))
 
-
-    game = Game(is_debug_mode=True)
-    game.run(scene)
+    Game.run(scene, is_debug_mode=True)
