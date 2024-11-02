@@ -1,19 +1,19 @@
 from typing import Callable
 
 
-class Event:
+class Event[**P]:
     def __init__(self):
-        self._callbacks: list[Callable] = list()
+        self._callbacks: list[Callable[P, None]] = list()
 
 
-    def add_callback(self, callback: Callable):
+    def add_callback(self, callback: Callable[P, None]):
         self._callbacks.append(callback)
 
 
-    def remove_callback(self, callback: Callable):
+    def remove_callback(self, callback: Callable[P, None]):
         self._callbacks.remove(callback)
 
 
-    def invoke(self):
+    def invoke(self, *args: P.args, **kwargs: P.kwargs):
         for callback in self._callbacks:
-            callback()
+            callback(*args, **kwargs)

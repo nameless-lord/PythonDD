@@ -1,5 +1,3 @@
-from cffi.model import BaseType
-
 from core import *
 
 from components.spriterenderer import SpriteRenderer
