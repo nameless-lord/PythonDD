@@ -1,3 +1,5 @@
+import pyray
+
 from core import *
 from core.eventsystem.event import Event
 from components.collisionbox import CollisionBox
@@ -17,5 +19,6 @@ class Button(ActorComponent):
 
     def on_update(self, frame_time: float) -> None:
         if pyray.is_mouse_button_pressed(pyray.MouseButton.MOUSE_BUTTON_LEFT):
-            if self._collision_box.check_collision_point(pyray.get_mouse_position()):
+            world_point = pyray.get_screen_to_world_2d(pyray.get_mouse_position(), Game.camera)
+            if self._collision_box.check_collision_point(world_point):
                 self.pressed.invoke()
