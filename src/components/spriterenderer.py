@@ -4,13 +4,18 @@ from pyray import *
 
 class SpriteRenderer(ActorComponent):
 
-    def __init__(self, texture_path: str, width: float, height: float, tint: Color = WHITE):
+    def __init__(self, texture_path: str, width: float, height: float):
         super().__init__()
         self._texture_path: str = texture_path
-        self._texture: Texture
+        self._texture: Texture = None
         self._width: float = width
         self._height: float = height
-        self._tint: Color = tint
+
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['_texture']
+        return state
 
 
     def on_start(self) -> None:
@@ -36,7 +41,7 @@ class SpriteRenderer(ActorComponent):
 
         origin = Vector2(self._width * 0.5, self._height * 0.5)
 
-        draw_texture_pro(self._texture, source_rect, dest_rect, origin, self._actor.rotation, self._tint)
+        draw_texture_pro(self._texture, source_rect, dest_rect, origin, self._actor.rotation, WHITE)
 
 
     def on_destroy(self) -> None:

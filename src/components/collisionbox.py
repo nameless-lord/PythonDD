@@ -1,6 +1,7 @@
 import pyray
 
 from core import *
+from pyray import Rectangle
 
 class CollisionBox(ActorComponent):
 
@@ -12,10 +13,13 @@ class CollisionBox(ActorComponent):
 
 
     def on_start(self) -> None:
-        self._rectangle.x = self._actor.position.x - self.width * 0.5
-        self._rectangle.y = self._actor.position.y - self.height * 0.5
-        self._rectangle.width = self.width
-        self._rectangle.height = self.height
+        self._rectangle: Rectangle = Rectangle(0, 0, 0, 0)
+
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['_rectangle']
+        return state
 
 
     def on_debug_draw(self, frame_time: float) -> None:

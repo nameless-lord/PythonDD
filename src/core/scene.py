@@ -1,5 +1,6 @@
+import pickle
 from core.actor import Actor
-from pyray import Vector2
+from .vector2 import Vector2
 
 
 class Scene:
@@ -13,6 +14,11 @@ class Scene:
         self._actors: list[Actor] = list()
         self._destroyed_actors: list[Actor] = list()
         self._name: str = name
+
+
+    def save(self, file_path: str):
+        with open(file_path, 'wb') as file:
+            pickle.dump(self, file, 0)
 
 
     def create_actor(self, name: str, position: Vector2, rotation: float = 0, scale: Vector2 = Vector2(1, 1)) -> Actor:
@@ -37,3 +43,9 @@ class Scene:
         print(f"{self._name}:")
         for actor in self._actors:
             print(actor)
+
+
+    @staticmethod
+    def load(file_path: str) -> 'Scene':
+        with open(file_path, 'rb') as file:
+            return pickle.load(file)

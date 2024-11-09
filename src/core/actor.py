@@ -1,7 +1,7 @@
 import core.scene
 from typing import Type
 from .actorcomponent import ActorComponent
-from pyray import Vector2
+from .vector2 import Vector2
 
 
 class Actor:
@@ -29,6 +29,12 @@ class Actor:
 
     def __str__(self):
         return f"{self.name}_{id(self)}"
+
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['_scene']
+        return state
 
 
     def add_component(self, component: ActorComponent) -> None:
