@@ -1,3 +1,4 @@
+import pickle
 import core.scene
 from typing import Type
 from .actorcomponent import ActorComponent
@@ -56,3 +57,8 @@ class Actor:
         self._is_destroyed = True
         for component in self._components:
             component.on_destroy()
+
+
+    def save(self, file_path: str):
+        with open(file_path, 'wb') as file:
+            pickle.dump(self, file, 0)

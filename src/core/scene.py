@@ -27,6 +27,16 @@ class Scene:
         return actor
 
 
+    def create_actor_from_file(self, file_path: str) -> Actor:
+        with open(file_path, 'rb') as file:
+            actor: Actor = pickle.load(file)
+
+        actor._scene = self
+
+        self._actors.append(actor)
+        return actor
+
+
     def destroy_actor(self, actor: Actor) -> None:
         self._destroyed_actors.append(actor)
         actor.on_destroy()
