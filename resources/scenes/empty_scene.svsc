@@ -1,0 +1,23 @@
+ccopy_reg
+_reconstructor
+p0
+(ccore.scene
+Scene
+p1
+c__builtin__
+object
+p2
+Ntp3
+Rp4
+(dp5
+V_actors
+p6
+(lp7
+sV_destroyed_actors
+p8
+(lp9
+sV_name
+p10
+VEmpty Scene
+p11
+sb.
