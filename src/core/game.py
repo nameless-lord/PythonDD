@@ -7,6 +7,11 @@ class Game:
     SCREEN_WIDTH = 1600
     SCREEN_HEIGHT = 900
 
+    RESOURCES_PATH = "../resources/"
+    SCENES_PATH = "../resources/scenes/"
+    ACTORS_PATH = "../resources/actors/"
+    IMAGES_PATH = "../resources/images/"
+
     camera: Camera2D
 
     request_exit: bool = False
