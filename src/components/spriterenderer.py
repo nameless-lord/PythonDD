@@ -20,7 +20,6 @@ class SpriteRenderer(ActorComponent):
 
     def on_start(self) -> None:
         self._texture = load_texture(self._texture_path)
-        SpriteRenderer(self._texture_path, self._width, self._height)
 
 
     def on_draw(self, frame_time: float) -> None:
