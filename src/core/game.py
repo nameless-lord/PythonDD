@@ -14,9 +14,9 @@ class Game:
     _current_scene: Scene = None
     _is_debug_mode: bool = False
 
-    @staticmethod
-    def run(start_scene: Scene, is_debug_mode: bool) -> None:
 
+    @staticmethod
+    def init_window():
         # Установка параметров
         set_trace_log_level(TraceLogLevel.LOG_WARNING)
         set_target_fps(60)
@@ -24,6 +24,9 @@ class Game:
         # Создание окна
         init_window(Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, "Game")
 
+
+    @staticmethod
+    def run(start_scene: Scene, is_debug_mode: bool) -> None:
         Game._current_scene = start_scene
         Game._is_debug_mode = is_debug_mode
 
@@ -64,6 +67,11 @@ class Game:
         Game._on_close()
 
         close_window()
+
+
+    @staticmethod
+    def exit():
+        Game.request_exit = True
 
 
     @staticmethod
