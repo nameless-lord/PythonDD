@@ -1,5 +1,8 @@
 import pickle
+from typing import Type
+
 from core.actor import Actor
+from core.actorcomponent import  ActorComponent
 from .vector2 import Vector2
 
 
@@ -47,6 +50,13 @@ class Scene:
             self._actors.remove(actor)
 
         self._destroyed_actors.clear()
+
+
+    def find_component[T: ActorComponent](self, component_type: Type[T]) -> T:
+        for actor in self._actors:
+            component = actor.get_component(component_type)
+            if component is not None:
+                return component
 
 
     def print_actor_names(self) -> None:
