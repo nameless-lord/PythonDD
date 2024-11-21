@@ -65,6 +65,11 @@ class Scene:
             print(actor)
 
 
+    def close(self):
+        for actor in self._actors:
+            self.destroy_actor(actor)
+
+
     @staticmethod
     def load(file_path: str) -> 'Scene':
         with open(file_path, 'rb') as file:

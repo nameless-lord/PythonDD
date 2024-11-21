@@ -17,6 +17,7 @@ class Game:
     request_exit: bool = False
 
     _current_scene: Scene = None
+    _new_scene: Scene = None
     _is_debug_mode: bool = False
 
 
@@ -45,6 +46,9 @@ class Game:
         while not window_should_close() and not Game.request_exit:
             frame_time: float = get_frame_time()
 
+            if Game._new_scene is not None:
+                Game._switch_scenes()
+
             # Обновление состояния объектов
             Game._on_update(frame_time)
 
@@ -72,6 +76,11 @@ class Game:
         Game._on_close()
 
         close_window()
+
+
+    @staticmethod
+    def change_scene(scene: Scene):
+        Game._new_scene = scene
 
 
     @staticmethod
@@ -109,5 +118,11 @@ class Game:
 
     @staticmethod
     def _on_close() -> None:
-        for actor in Game._current_scene.actors:
-            Game._current_scene.destroy_actor(actor)
+        Game._current_scene.close()
+
+
+    @staticmethod
+    def _switch_scenes():
+        Game._current_scene.close()
+        Game._current_scene = Game._new_scene
+        Game._new_scene = None
