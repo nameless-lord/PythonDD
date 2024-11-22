@@ -1,6 +1,7 @@
 import pickle
 import core.scene
 from typing import Type
+
 from .actorcomponent import ActorComponent
 from .vector2 import Vector2
 
@@ -9,12 +10,12 @@ class Actor:
 
     @property
     def components(self) -> list[ActorComponent]:
-        return self._components
+        return self.__components
 
 
     @property
     def is_destroyed(self) -> bool:
-        return self._is_destroyed
+        return self.__is_destroyed
 
 
     def __init__(self, scene: 'core.scene.Scene', name: str,
@@ -23,9 +24,9 @@ class Actor:
         self.position: Vector2 = position
         self.rotation: float = rotation
         self.scale: Vector2 = scale
-        self._scene: 'core.scene.Scene' = scene
-        self._components: list[ActorComponent] = list()
-        self._is_destroyed: bool = False
+        self.__scene: 'core.scene.Scene' = scene
+        self.__components: list[ActorComponent] = list()
+        self.__is_destroyed: bool = False
 
 
     def __str__(self):
@@ -34,31 +35,41 @@ class Actor:
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        del state['_scene']
+        del state['_Actor__scene']
+        del state['_Actor__is_destroyed']
         return state
 
 
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        self.__is_destroyed = False
+
+
     def add_component(self, component: ActorComponent) -> None:
-        self._components.append(component)
+        self.__components.append(component)
         component.set_actor(self)
 
 
     def get_component[T: ActorComponent](self, component_type: Type[T]) -> T:
-        for component in self._components:
+        for component in self.__components:
             if type(component) is component_type:
                 return component
 
 
     def destroy(self):
-        self._scene.destroy_actor(self)
+        self.__scene.destroy_actor(self)
 
 
     def on_destroy(self) -> None:
-        self._is_destroyed = True
-        for component in self._components:
+        self.__is_destroyed = True
+        for component in self.__components:
             component.on_destroy()
 
 
     def save(self, file_path: str):
         with open(file_path, 'wb') as file:
             pickle.dump(self, file, 0)
+
+
+    def set_scene(self, scene):
+        self.__scene = scene

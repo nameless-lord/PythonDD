@@ -26,9 +26,9 @@ class TextRenderer(ActorComponent):
 
         pyray.draw_text_pro(font,
                             self.text,
-                            self._actor.position.to_rl_vector(),
+                            self.actor.position.to_rl_vector(),
                             origin,
-                            self._actor.rotation,
+                            self.actor.rotation,
                             self.font_size,
                             self.spacing,
                             self.tint)

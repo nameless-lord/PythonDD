@@ -4,25 +4,25 @@ class ActorComponent:
 
     @property
     def is_started(self) -> bool:
-        return self._is_started
+        return self.__is_started
 
 
     @property
     def actor(self) -> 'core.actor.Actor':
-        return self._actor
+        return self.__actor
 
 
     def __init__(self):
-        self._actor: 'core.actor.Actor' = None
-        self._is_started: bool = False
+        self.__actor: 'core.actor.Actor' = None
+        self.__is_started: bool = False
 
 
     def set_actor(self, actor: 'core.actor.Actor'):
-        self._actor = actor
+        self.__actor = actor
 
 
     def start(self) -> None:
-        self._is_started = True
+        self.__is_started = True
         self.on_start()
 
 

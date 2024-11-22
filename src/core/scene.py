@@ -10,13 +10,13 @@ class Scene:
 
     @property
     def actors(self) -> list[Actor]:
-        return self._actors
+        return self.__actors
 
 
     def __init__(self, name: str):
-        self._actors: list[Actor] = list()
-        self._destroyed_actors: list[Actor] = list()
-        self._name: str = name
+        self.__actors: list[Actor] = list()
+        self.__destroyed_actors: list[Actor] = list()
+        self.__name: str = name
 
 
     def save(self, file_path: str):
@@ -26,7 +26,7 @@ class Scene:
 
     def create_actor(self, name: str, position: Vector2, rotation: float = 0, scale: Vector2 = Vector2(1, 1)) -> Actor:
         actor: Actor = Actor(self, name, position, rotation, scale)
-        self._actors.append(actor)
+        self.actors.append(actor)
         return actor
 
 
@@ -34,39 +34,39 @@ class Scene:
         with open(file_path, 'rb') as file:
             actor: Actor = pickle.load(file)
 
-        actor._scene = self
+        actor.set_scene(self)
 
-        self._actors.append(actor)
+        self.actors.append(actor)
         return actor
 
 
     def destroy_actor(self, actor: Actor) -> None:
-        self._destroyed_actors.append(actor)
+        self.__destroyed_actors.append(actor)
         actor.on_destroy()
 
 
     def remove_destroyed_actors(self) -> None:
-        for actor in self._destroyed_actors:
-            self._actors.remove(actor)
+        for actor in self.__destroyed_actors:
+            self.actors.remove(actor)
 
-        self._destroyed_actors.clear()
+        self.__destroyed_actors.clear()
 
 
     def find_component[T: ActorComponent](self, component_type: Type[T]) -> T:
-        for actor in self._actors:
+        for actor in self.actors:
             component = actor.get_component(component_type)
             if component is not None:
                 return component
 
 
     def print_actor_names(self) -> None:
-        print(f"{self._name}:")
-        for actor in self._actors:
+        print(f"{self.__name}:")
+        for actor in self.actors:
             print(actor)
 
 
     def close(self):
-        for actor in self._actors:
+        for actor in self.actors:
             self.destroy_actor(actor)
 
 
