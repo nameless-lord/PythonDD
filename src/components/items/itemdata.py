@@ -20,6 +20,7 @@ class ItemData:
         return self.__spoliage
 
     @property
-    def texture_path(self) -> str: pass
+    def texture_path(self) -> str:
+        return self.__texture_path
 
 
