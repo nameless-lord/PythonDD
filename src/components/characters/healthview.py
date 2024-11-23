@@ -1,18 +1,15 @@
 from core import *
 from components.characters.health import Health
 from components.textrenderer import TextRenderer
+from core.eventsystem import ActorComponent
+
 class HealthView(ActorComponent):
-    def __init__(self):
+    def __init__(self, health: Health, textrenderer: TextRenderer):
         super().__init__()
-        self.__health: Health = None  # Приватное поле для хранения ссылки на Health
-        self.__text_renderer: TextRenderer = None  # Приватное поле для хранения ссылки на TextRenderer
+        self.__health: Health = health  # Приватное поле для хранения ссылки на Health
+        self.__text_renderer: TextRenderer = textrenderer  # Приватное поле для хранения ссылки на TextRenderer
 
     def on_start(self):
-        # Получаем компонент Health
-        self.__health = self.actor.get_component(Health)
-
-        # Получаем компонент TextRenderer
-        self.__text_renderer = self.actor.get_component(TextRenderer)
 
         # Подписываемся на изменения здоровья
         self.__health.health_changed.add_callback(self.on_health_changed)
