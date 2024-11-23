@@ -6,5 +6,9 @@ class Vector2:
         self.y = y
 
 
+    def __add__(self, other):
+        return Vector2(self.x + other.x, self.y + other.y)
+
+
     def to_rl_vector(self) -> pyray.Vector2:
         return pyray.Vector2(self.x, self.y)
