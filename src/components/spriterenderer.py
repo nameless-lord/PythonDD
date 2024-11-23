@@ -1,3 +1,5 @@
+import pyray
+
 from core import *
 from pyray import *
 
@@ -47,9 +49,15 @@ class SpriteRenderer(ActorComponent):
 
         draw_texture_pro(self.__texture, source_rect, dest_rect, origin, self.actor.rotation, WHITE)
 
-
     def on_destroy(self) -> None:
         if self.__texture is None:
             return
 
         unload_texture(self.__texture)
+
+
+    def change_texture(self, texture_path: str) -> None:
+        if self.__texture is not None:
+            unload_texture(self.__texture)
+
+        self.__texture = load_texture(self.__texture_path)

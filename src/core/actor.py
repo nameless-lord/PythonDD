@@ -14,6 +14,11 @@ class Actor:
 
 
     @property
+    def scene(self) -> 'core.scene.Scene':
+        return self.__scene
+
+
+    @property
     def is_destroyed(self) -> bool:
         return self.__is_destroyed
 
