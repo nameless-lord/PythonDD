@@ -1,6 +1,8 @@
 from core import *
 from components.characters.health import Health
 from components.textrenderer import TextRenderer
+from core.eventsystem import ActorComponent
+
 class HealthView(ActorComponent):
     def __init__(self, health: Health, textrenderer: TextRenderer):
         super().__init__()
