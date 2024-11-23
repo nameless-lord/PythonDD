@@ -45,9 +45,10 @@ class Actor:
         self.__is_destroyed = False
 
 
-    def add_component(self, component: ActorComponent) -> None:
+    def add_component[T: ActorComponent](self, component: T) -> T:
         self.__components.append(component)
         component.set_actor(self)
+        return component
 
 
     def get_component[T: ActorComponent](self, component_type: Type[T]) -> T:
