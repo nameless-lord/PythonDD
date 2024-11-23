@@ -1,7 +1,7 @@
 from typing import List
 from core import *
 from core.eventsystem.event import Event
-
+from components.items.itemdata import ItemData
 
 
 class PlayerState(ActorComponent):
