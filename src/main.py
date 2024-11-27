@@ -1,7 +1,9 @@
 from components.characters.damageovertime import DamageOverTime
+from components.characters.damageresponse import DamageResponse
 from components.characters.health import Health
 from components.characters.healthview import HealthView
 from components.characters.playerstate import PlayerState
+from components.characters.spawnondeath import SpawnOnDeath
 from components.collisionbox import CollisionBox
 from components.spriterenderer import SpriteRenderer
 from components.textrenderer import TextRenderer
@@ -31,37 +33,33 @@ def create_main_menu() -> Scene:
 def create_sample_scene() -> Scene:
     scene = Scene("Sample")
     background = scene.create_actor("Background", Vector2())
+    background.add_component(SpriteRenderer(Game.IMAGES_PATH + "background.png", 1600, 900))
 
     player_state_actor = scene.create_actor("PlayerState", Vector2(-700, -400))
     player_state = player_state_actor.add_component(PlayerState())
     player_state.gold_changed.add_callback(lambda : update_gold_text(player_state))
     player_state_actor.add_component(TextRenderer("Gold", tint=Color.YELLOW))
 
-    enemy = scene.create_actor("Enemy", Vector2())
-    enemy.add_component(SpriteRenderer(Game.IMAGES_PATH + "placeholder.png", 256, 256))
-    enemy.add_component(CollisionBox(256, 256))
-    enemy_health = enemy.add_component(Health(1500))
-    enemy_health.health_changed.add_callback(lambda : on_damage(player_state, enemy_health))
+    enemy = scene.create_actor("NewEnemy", Vector2())
+    enemy.add_component(SpriteRenderer(Game.IMAGES_PATH + "character1.png", 256, 256))
+    enemy.add_component(CollisionBox(128, 256))
+    enemy_health = enemy.add_component(Health(300))
     enemy_text = enemy.add_component(TextRenderer("", offset=Vector2(0, -150)))
     enemy.add_component(HealthView(enemy_health, enemy_text))
     enemy_button = enemy.add_component(Button())
-    enemy_button.pressed.add_callback(lambda : enemy_health.take_damage(2))
+    enemy_button.pressed.add_callback(lambda: enemy_health.take_damage(7))
+    enemy.add_component(DamageResponse())
+    enemy.add_component(SpawnOnDeath())
 
-    dot_damage_button = scene.create_actor("Dot", Vector2(-600, -200))
+    dot_damage_button = scene.create_actor("Dot", Vector2(-600, 400))
     text = "Add dot damage (cost 100)"
     dot_damage_button.add_component(TextRenderer(text, tint=Color.RED))
     size = pyray.measure_text_ex(pyray.get_font_default(), text, 24, 4)
     dot_damage_button.add_component(CollisionBox(size.x, size.y))
     dot_damage_button.add_component(Button())
-    dot_damage_button.get_component(Button).pressed.add_callback(lambda : dot_button_behaviour(enemy))
+    dot_damage_button.get_component(Button).pressed.add_callback(dot_button_response)
 
     return scene
-
-
-def on_damage(player_state: PlayerState, enemy_health: Health) -> None:
-    player_state.add_gold(3)
-    if not enemy_health.is_alive:
-        enemy_health.actor.destroy()
 
 
 def update_gold_text(player_state: PlayerState) -> None:
@@ -69,7 +67,12 @@ def update_gold_text(player_state: PlayerState) -> None:
     tr.text = f"Gold: {player_state.gold}"
 
 
-def dot_button_behaviour(enemy: Actor) -> None:
+def dot_button_response() -> None:
+    health = Game.get_current_scene().find_component(Health)
+    if health is None:
+        return
+
+    enemy = health.actor
     if enemy.scene.find_component(PlayerState).gold > 100:
         enemy.add_component(DamageOverTime(1, 1.5))
         enemy.scene.find_component(PlayerState).remove_gold(100)
