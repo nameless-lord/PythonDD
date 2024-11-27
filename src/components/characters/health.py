@@ -22,6 +22,7 @@ class Health(ActorComponent):
         self.__current_health: int = max_health
 
         self.health_changed: Event = Event()
+        self.damaged: Event[int] = Event()
 
 
     def take_damage(self, amount: int):
@@ -29,6 +30,7 @@ class Health(ActorComponent):
         if self.__current_health < 0:
             self.__current_health = 0
         self.health_changed.invoke()
+        self.damaged.invoke(amount)
 
 
     def regenerate(self, amount: int):

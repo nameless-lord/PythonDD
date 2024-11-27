@@ -41,6 +41,8 @@ class Scene:
 
 
     def destroy_actor(self, actor: Actor) -> None:
+        if actor in self.__destroyed_actors:
+            return
         self.__destroyed_actors.append(actor)
         actor.on_destroy()
 

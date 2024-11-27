@@ -22,6 +22,11 @@ class Game:
 
 
     @staticmethod
+    def get_current_scene() -> Scene:
+        return Game.__current_scene
+
+
+    @staticmethod
     def init_window():
         # Установка параметров
         set_trace_log_level(TraceLogLevel.LOG_WARNING)
